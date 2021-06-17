@@ -1,12 +1,12 @@
 # Datepicker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.29.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
 ## Requirement
 
 - Node.js
 
-- Angular 8
+- Angular 12
 
 ## Installation
 
