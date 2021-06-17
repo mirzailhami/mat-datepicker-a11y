@@ -1,6 +1,16 @@
 @use '~@angular/material' as mat;
 
 ::ng-deep {
+  .tooltip {
+    position: absolute;
+    font-size: 10px;
+    padding: 5px;
+    background-color: #222222;
+    color: white;
+    opacity: 0.8;
+    border-radius: 5px;
+    top: 50px;
+  }
   .mat-focus-indicator {
     .mat-ripple {
       color: rgba(0, 0, 0, 0.68);
@@ -31,16 +41,6 @@
 
   .mat-calendar {
     .mat-calendar-controls {
-      .tooltip {
-        position: absolute;
-        font-size: 10px;
-        padding: 5px;
-        background-color: #222222;
-        color: white;
-        opacity: 0.8;
-        border-radius: 5px;
-        top: 50px;
-      }
 
       .mat-icon-button:hover,
       .mat-icon-button:focus,

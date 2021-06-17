@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import {
     AfterViewChecked,
     Component,
@@ -6,7 +6,7 @@ import {
     OnInit,
     Output
 } from '@angular/core';
-import { MatDatepicker, MatDatepickerIntl } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerIntl, MatDatepickerToggle } from '@angular/material/datepicker';
 import {
     MomentDateAdapter,
     MAT_MOMENT_DATE_ADAPTER_OPTIONS
@@ -65,10 +65,10 @@ export const CUSTOM_FORMAT = {
             useClass: CustomDateAdapter,
             deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
         },
-        { provide: MAT_DATE_FORMATS, useValue: CUSTOM_FORMAT }
+        {provide: MAT_DATE_FORMATS, useValue: CUSTOM_FORMAT}
     ]
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent implements AfterViewInit, OnInit {
     @Input() type: 'moment' | 'date' = 'moment';
     @Output() dateSelected = new EventEmitter<Date | _moment.Moment>();
     selectedDate: Date | _moment.Moment;
@@ -77,7 +77,8 @@ export class DatepickerComponent implements OnInit {
     focusListener: any;
     currentView: 'month' | 'year' | 'multi-year' = 'month';
 
-    @ViewChild('picker', { static: false }) picker: MatDatepicker<any>;
+    @ViewChild('picker', {static: false}) picker: MatDatepicker<any>;
+    @ViewChild('toggle', {static: false}) toggle: MatDatepickerToggle<any>;
 
     constructor(
         public datePicker: MatDatepickerIntl,
@@ -94,7 +95,28 @@ export class DatepickerComponent implements OnInit {
         this.datePicker.switchToMultiYearViewLabel = 'Switch to multi year view';
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+
+    }
+
+    ngAfterViewInit()  {
+        if (this.toggle) {
+            const button = this.toggle._button._elementRef.nativeElement;
+            // document.querySelector('.mat-datepicker-toggle button')
+            this.renderer.listen(button, 'focus', () => {
+                this.addTooltip(button, this.datePicker.openCalendarLabel);
+            });
+            this.renderer.listen(button, 'mouseenter', () => {
+                this.addTooltip(button, this.datePicker.openCalendarLabel);
+            });
+            this.renderer.listen(button, 'blur', () => {
+                this.removeTooltip();
+            });
+            this.renderer.listen(button, 'mouseout', () => {
+                this.removeTooltip();
+            });
+        }
+    }
 
     onDateSelection() {
         const output =
@@ -155,7 +177,7 @@ export class DatepickerComponent implements OnInit {
                     const cellAriaLabel = `${getOrdinalNum(
                         allDates[i].firstElementChild.textContent
                     )} of ${monthyear.firstElementChild.textContent
-                        }, row ${row} column ${column}`;
+                    }, row ${row} column ${column}`;
                     allDates[i].setAttribute('aria-label', cellAriaLabel);
                 }
             }
@@ -232,12 +254,12 @@ export class DatepickerComponent implements OnInit {
         });
     }
 
-    addTooltip(button, isPeriodButton = false): void {
+    addTooltip(button, text = ''): void {
         this.removeTooltip();
         const div = document.createElement('div');
         div.classList.add('tooltip');
-        if (isPeriodButton) {
-            div.innerText = button.getAttribute('aria-label');
+        if (text.length) {
+            div.innerText = text;
         } else {
             switch (this.currentView) {
                 case 'multi-year': {
@@ -286,24 +308,24 @@ export class DatepickerComponent implements OnInit {
 
     addPeriodButtonTooltip() {
         const periodButton = document.querySelector('.mat-calendar-period-button');
-            if (periodButton) {
-                const hoverListener = this.renderer.listen(periodButton, 'mouseover', () => {
-                    this.addTooltip(periodButton, true);
-                });
+        if (periodButton) {
+            const hoverListener = this.renderer.listen(periodButton, 'mouseover', () => {
+                this.addTooltip(periodButton, periodButton.getAttribute('aria-label'));
+            });
 
-                this.renderer.listen(periodButton, 'mouseout', () => {
-                    this.removeTooltip();
-                });
-                this.hoverListener = [...this.hoverListener, hoverListener];
+            this.renderer.listen(periodButton, 'mouseout', () => {
+                this.removeTooltip();
+            });
+            this.hoverListener = [...this.hoverListener, hoverListener];
 
-                const focusListener = this.renderer.listen(periodButton, 'focus', () => {
-                    this.addTooltip(periodButton, true);
-                });
+            const focusListener = this.renderer.listen(periodButton, 'focus', () => {
+                this.addTooltip(periodButton, periodButton.getAttribute('aria-label'));
+            });
 
-                this.renderer.listen(periodButton, 'blur', () => {
-                    this.removeTooltip();
-                });
-                this.focusListener = [...this.focusListener, focusListener];
-            }
+            this.renderer.listen(periodButton, 'blur', () => {
+                this.removeTooltip();
+            });
+            this.focusListener = [...this.focusListener, focusListener];
+        }
     }
 }
