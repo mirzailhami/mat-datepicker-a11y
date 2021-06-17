@@ -1,0 +1,15 @@
+<h1>Datepicker Demo</h1>
+<div>
+    <app-datepicker
+            (dateSelected)="dateSelected($event)"
+            [type]="'date'"
+    ></app-datepicker>
+</div>
+
+<div>
+    <app-datepicker
+            (dateSelected)="dateSelected($event)"
+            [type]="'moment'"
+    ></app-datepicker>
+</div>
+<router-outlet></router-outlet>
