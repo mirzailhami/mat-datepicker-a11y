@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Input, Renderer2, ViewChild } from '@angular/core';
 import {
-    AfterViewChecked,
     Component,
     EventEmitter,
     OnInit,
@@ -99,10 +98,9 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
 
     }
 
-    ngAfterViewInit()  {
+    ngAfterViewInit() {
         if (this.toggle) {
             const button = this.toggle._button._elementRef.nativeElement;
-            // document.querySelector('.mat-datepicker-toggle button')
             this.renderer.listen(button, 'focus', () => {
                 this.addTooltip(button, this.datePicker.openCalendarLabel);
             });
@@ -128,7 +126,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     private setMonthAriaLabel() {
-        const monthLabel = document.getElementsByClassName(
+        const monthLabel = (this.picker as any)._componentRef.location.nativeElement.getElementsByClassName(
             'mat-calendar-body-label'
         )[0];
         if (monthLabel) {
@@ -140,7 +138,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     private setDaysAriaLabel() {
-        const header = document.getElementsByClassName(
+        const header = (this.picker as any)._componentRef.location.nativeElement.getElementsByClassName(
             'mat-calendar-table-header'
         )[0];
         if (header) {
@@ -155,10 +153,10 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     private setDateCellAriaLabel() {
-        const allDates: any[] = document.getElementsByClassName(
+        const allDates: any[] = (this.picker as any)._componentRef.location.nativeElement.getElementsByClassName(
             'mat-calendar-body-cell'
         ) as any;
-        const monthyear = document.getElementsByClassName(
+        const monthyear = (this.picker as any)._componentRef.location.nativeElement.getElementsByClassName(
             'mat-calendar-period-button'
         )[0];
         if (monthyear && allDates.length > 0) {
@@ -187,8 +185,11 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
 
     opened() {
         setTimeout(() => {
+            this.setTableRole();
+            this.fixAriaHidden();
             this.setDateCellAriaLabel();
             this.setDaysAriaLabel();
+            this.setGridLabel();
             const buttons = document
                 .querySelectorAll('.mat-calendar-previous-button, .mat-calendar-next-button');
             if (buttons) {
@@ -251,6 +252,8 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         setTimeout(() => {
             this.announcer.clear();
             this.addPeriodButtonTooltip();
+            this.setGridLabel();
+            this.setTableRole();
         });
     }
 
@@ -296,7 +299,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     addMultiYearLabel() {
-        const element = document.getElementsByClassName('mat-calendar-period-button')[0];
+        const element = (this.picker as any)._componentRef.location.nativeElement.getElementsByClassName('mat-calendar-period-button')[0];
         if (element) {
             const self = this;
             setTimeout(() => {
@@ -307,7 +310,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     addPeriodButtonTooltip() {
-        const periodButton = document.querySelector('.mat-calendar-period-button');
+        const periodButton = (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-period-button');
         if (periodButton) {
             const hoverListener = this.renderer.listen(periodButton, 'mouseover', () => {
                 this.addTooltip(periodButton, periodButton.getAttribute('aria-label'));
@@ -327,5 +330,28 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
             });
             this.focusListener = [...this.focusListener, focusListener];
         }
+    }
+
+    setTableRole() {
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table').setAttribute('role', 'grid');
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table-header').setAttribute('role', 'rowgroup');
+        const tableBody = (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-body');
+        tableBody.setAttribute('role', 'rowgroup');
+        tableBody.removeAttribute('aria-readonly',);
+        if (this.currentView === 'month') {
+            (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table-header tr').setAttribute('role', 'row');
+        }
+    }
+
+    fixAriaHidden() {
+        const elements = document.querySelectorAll('.cdk-visually-hidden.cdk-focus-trap-anchor[aria-hidden="true"]')
+        Array.from(elements).forEach((element) => {
+            element.setAttribute('tabindex', '-1');
+        });
+    }
+
+    setGridLabel() {
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table')
+            .setAttribute('aria-label', this.currentView);
     }
 }
