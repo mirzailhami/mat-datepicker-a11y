@@ -351,7 +351,8 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     setGridLabel() {
+        const grid = {month: 'date', year: 'month', 'multi-year': 'year'};
         (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table')
-            .setAttribute('aria-label', this.currentView);
+            .setAttribute('aria-label', grid[this.currentView]);
     }
 }

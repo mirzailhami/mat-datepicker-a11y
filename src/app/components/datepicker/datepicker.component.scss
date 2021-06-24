@@ -16,6 +16,9 @@
       color: rgba(0, 0, 0, 0.68);
     }
   }
+  .mat-datepicker-toggle, .mat-datepicker-content .mat-calendar-next-button, .mat-datepicker-content .mat-calendar-previous-button{
+    color: #343434;
+  }
   .mat-button.cdk-keyboard-focused .mat-button-focus-overlay,
   .mat-button.cdk-program-focused .mat-button-focus-overlay,
   .mat-icon-button.cdk-keyboard-focused .mat-button-focus-overlay,
@@ -26,6 +29,9 @@
   .mat-flat-button.cdk-program-focused .mat-button-focus-overlay {
     opacity: 0.3 !important;
   }
+  .mat-calendar-body-selected{
+    background-color: #493FB5;
+  }
 
   .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
@@ -35,7 +41,7 @@
   .cdk-program-focused
     .mat-calendar-body-active
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    background-color: rgba(63,81,181, .64);
+    background-color: #665DC3;
     color: white;
   }
 
