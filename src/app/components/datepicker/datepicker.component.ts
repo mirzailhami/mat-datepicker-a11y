@@ -95,7 +95,6 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit() {
-
     }
 
     ngAfterViewInit() {
@@ -135,6 +134,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
                 `${monthLabel.textContent.trim()}`
             );
         }
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table-header').setAttribute('aria-hidden', 'true');
     }
 
     private setDaysAriaLabel() {
@@ -143,8 +143,10 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         )[0];
         if (header) {
             const days = header.firstElementChild.getElementsByTagName('th');
-            for (let i = 0; i < 7; i++) {
-                if (days[i]) {
+            console.log(days);
+            if (days.length) {
+                header.removeAttribute('aria-hidden');
+                for (let i = 0; i < 7; i++) {
                     days[i].setAttribute('aria-label', getFullWeekName(i));
                     days[i].setAttribute('role', 'columnheader');
                 }
@@ -307,6 +309,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
                 self.announcer.announce(`Showing ${text.replace('–', 'to')}`);
             });
         }
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table-header').setAttribute('aria-hidden', 'true');
     }
 
     addPeriodButtonTooltip() {
@@ -333,6 +336,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     setTableRole() {
+        (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-spacer').setAttribute('aria-hidden', 'true');
         (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table').setAttribute('role', 'grid');
         (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-table-header').setAttribute('role', 'rowgroup');
         const tableBody = (this.picker as any)._componentRef.location.nativeElement.querySelector('.mat-calendar-body');
