@@ -19,7 +19,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 export class CustomDateAdapter extends MomentDateAdapter {
     getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
-        return ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     }
 }
 

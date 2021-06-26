@@ -1,6 +1,11 @@
 @use '~@angular/material' as mat;
 
 ::ng-deep {
+  .mat-datepicker-content .mat-calendar {
+    width: 422px !important;
+    height: 480px !important;
+  }
+
   .tooltip {
     position: absolute;
     font-size: 10px;
