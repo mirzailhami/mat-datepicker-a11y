@@ -1,12 +1,12 @@
 # Datepicker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
+Angular Material datepicker a11y customization.
 
 ## Requirement
 
-- Node.js
+- Node.js v10.15.0
 
-- Angular 12
+- Angular v11
 
 ## Installation
 
