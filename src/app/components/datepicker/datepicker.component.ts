@@ -143,7 +143,6 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         )[0];
         if (header) {
             const days = header.firstElementChild.getElementsByTagName('th');
-            console.log(days);
             if (days.length) {
                 header.removeAttribute('aria-hidden');
                 for (let i = 0; i < 7; i++) {
