@@ -6,7 +6,7 @@ Angular Material datepicker a11y customization.
 
 - Node.js v10.15.0
 
-- Angular v11
+- Angular v10.2.3
 
 ## Installation
 
