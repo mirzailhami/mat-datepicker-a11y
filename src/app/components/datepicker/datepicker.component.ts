@@ -265,6 +265,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         if (text.length) {
             div.innerText = text;
         } else {
+            console.log(this.currentView);
             switch (this.currentView) {
                 case 'multi-year': {
                     if (button.classList.contains('mat-calendar-previous-button')) {
