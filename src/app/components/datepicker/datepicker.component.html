@@ -7,5 +7,5 @@
           [matDatepicker]="picker"
   />
   <mat-datepicker-toggle matSuffix [for]="picker" #toggle></mat-datepicker-toggle>
-  <mat-datepicker ngDefaultControl #picker (closed)="closed()" (opened)="opened()" (viewChanged)="viewChanged($event)"></mat-datepicker>
+  <mat-datepicker ngDefaultControl #picker (closed)="closed()" (opened)="opened()" (monthSelected)="viewChanged('month')" (yearSelected)="viewChanged('year')"></mat-datepicker>
 </mat-form-field>

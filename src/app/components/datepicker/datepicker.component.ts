@@ -145,10 +145,10 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
             const days = header.firstElementChild.getElementsByTagName('th');
             if (days.length) {
                 header.removeAttribute('aria-hidden');
-                for (let i = 0; i < 7; i++) {
+                Array.from(days).forEach((day, i) => {
                     days[i].setAttribute('aria-label', getFullWeekName(i));
                     days[i].setAttribute('role', 'columnheader');
-                }
+                });
             }
         }
     }
@@ -252,7 +252,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         }
         setTimeout(() => {
             this.announcer.clear();
-            this.addPeriodButtonTooltip();
+            // this.addPeriodButtonTooltip();
             this.setGridLabel();
             this.setTableRole();
         });
@@ -315,8 +315,19 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     addPeriodButtonTooltip() {
         const periodButton = (this.picker as any)._popupComponentRef.location.nativeElement.querySelector('.mat-calendar-period-button');
         if (periodButton) {
+
+            const clickListener = this.renderer.listen(periodButton, 'mouseup', () => {
+                if (this.currentView === 'multi-year') {
+                    this.viewChanged('month');
+                }else if (this.currentView === 'month') {
+                    this.viewChanged('multi-year');
+                }
+            });
+            this.clickListener = [...this.clickListener, clickListener]
+
             const hoverListener = this.renderer.listen(periodButton, 'mouseover', () => {
                 this.addTooltip(periodButton, periodButton.getAttribute('aria-label'));
+                this.addMultiYearLabel();
             });
 
             this.renderer.listen(periodButton, 'mouseout', () => {
@@ -326,6 +337,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
 
             const focusListener = this.renderer.listen(periodButton, 'focus', () => {
                 this.addTooltip(periodButton, periodButton.getAttribute('aria-label'));
+                this.addMultiYearLabel();
             });
 
             this.renderer.listen(periodButton, 'blur', () => {
