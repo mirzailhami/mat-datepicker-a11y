@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Input, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     Component,
     EventEmitter,
@@ -65,7 +65,8 @@ export const CUSTOM_FORMAT = {
             deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
         },
         {provide: MAT_DATE_FORMATS, useValue: CUSTOM_FORMAT}
-    ]
+    ],
+    encapsulation: ViewEncapsulation.Emulated,
 })
 export class DatepickerComponent implements AfterViewInit, OnInit {
     @Input() type: 'moment' | 'date' = 'moment';
@@ -261,7 +262,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     addTooltip(button, text = ''): void {
         this.removeTooltip();
         const div = document.createElement('div');
-        div.classList.add('tooltip');
+        div.classList.add('mat-tooltip');
         if (text.length) {
             div.innerText = text;
         } else {
