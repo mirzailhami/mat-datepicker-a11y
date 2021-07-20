@@ -298,7 +298,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     }
 
     removeTooltip(): void {
-        document.querySelector('div.tooltip')?.remove();
+        document.querySelector('div.mat-tooltip')?.remove();
     }
 
     addMultiYearLabel() {
