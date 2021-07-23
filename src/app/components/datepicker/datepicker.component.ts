@@ -30,10 +30,8 @@ export class CustomDateAdapter extends MomentDateAdapter {
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { default as _rollupMoment } from 'moment';
-import { getFullMonthName } from 'src/utils/get-full-month.util';
-import { getFullWeekName } from 'src/utils/get-full-week.util';
-import { getOrdinalNum } from 'src/utils/get-ordinal-number.util';
-import { domainToUnicode } from 'url';
+import { getFullWeekName } from '../../../utils/get-full-week.util';
+import { getOrdinalNum } from '../../../utils/get-ordinal-number.util';
 
 const moment = _rollupMoment || _moment;
 
