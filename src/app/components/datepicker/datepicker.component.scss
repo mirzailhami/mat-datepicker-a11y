@@ -36,6 +36,9 @@
   }
   .mat-calendar-body-selected{
     background-color: #493FB5;
+    &.mat-focus-indicator{
+      box-shadow: inset 0 0 0 1px #fff;
+    }
   }
 
   .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
