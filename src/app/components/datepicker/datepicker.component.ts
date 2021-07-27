@@ -186,7 +186,7 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
     opened() {
         setTimeout(() => {
             this.setTableRole();
-            this.fixAriaHidden();
+            this.addAriaModal();
             this.setDateCellAriaLabel();
             this.setDaysAriaLabel();
             this.setGridLabel();
@@ -358,11 +358,9 @@ export class DatepickerComponent implements AfterViewInit, OnInit {
         }
     }
 
-    fixAriaHidden() {
-        const elements = document.querySelectorAll('.cdk-visually-hidden.cdk-focus-trap-anchor[aria-hidden="true"]')
-        Array.from(elements).forEach((element) => {
-            element.setAttribute('tabindex', '-1');
-        });
+    addAriaModal() {
+        const role = document.querySelectorAll('.mat-datepicker-popup[role="dialog"]')
+        role[0].setAttribute('aria-modal', 'true');
     }
 
     setGridLabel() {
